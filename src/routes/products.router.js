@@ -31,7 +31,7 @@ router.post('/',async(req,res)=>{
         if (req.body.title && req.body.description && req.body.code && req.body.price && req.body.stock && req.body.category) {
             const products=await pManager.getProducts();
             const maxId = products.length > 0 ? Math.max(...products.map(item => item.id)) : 0;
-            if (body.hasOwnProperty('status')) {
+            if (req.body.hasOwnProperty('status')) {
                 if (req.body.status===null) {
                     req.body.status=true
                 } 

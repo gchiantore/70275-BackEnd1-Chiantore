@@ -1,10 +1,9 @@
 import express from 'express';
 import config from './config.js';
-import productsRouter from './routes/products.router.js';
-import cartsRouter from './routes/carts.router.js';
 // importamos el paquete de rutas dinámicas para manejo de productos
-
+import productsRouter from './routes/products.router.js';
 // importamos el paquete de rutas dinamicas para el manejo de carrritos
+import cartsRouter from './routes/carts.router.js';
 
 // inicializamos una instancia de express
 const app = express();

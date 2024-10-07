@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const router=Router();
 
-const pManager=new ProductManager('./src/products.json');
+const pManager=new ProductManager('products.json');
 
 router.get('/',async(req,res)=>{
     if (req.query.limit>0) {

@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const router=Router();
 
-const cManager=new CartManager('./src/carts.json');
+const cManager=new CartManager('carts.json');
 
 router.get('/:cid',async(req,res)=>{
     const carts=await cManager.getCarts();// Obtengo todo los datos de los carritos
@@ -45,7 +45,6 @@ router.post('/:cid/products/:pid', async (req, res) => {
             res.status(400).send({ error: 'No existe el carrito' });
         }
     } catch (error) {
-        console.error('Error al actualizar el carrito:', error);
         res.status(500).send({ error: 'Ocurrió un error en el servidor' });
     }
 });

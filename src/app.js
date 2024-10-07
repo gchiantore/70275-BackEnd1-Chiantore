@@ -5,8 +5,23 @@ import productsRouter from './routes/products.router.js';
 // importamos el paquete de rutas dinamicas para el manejo de carrritos
 import cartsRouter from './routes/carts.router.js';
 
+// importamos los Class Managers para manejo de archivos JSON
+import { ProductManager } from './productsManager.js';
+import { CartManager } from './cartManager.js'; 
+
+//Creamos Instancias de Managers
+const cManager = new CartManager('carts.json');
+const pManager = new ProductManager('products.json');   
+
+// Inicializamos los Managers
+cManager.init();
+pManager.init();        
+
+
 // inicializamos una instancia de express
 const app = express();
+
+
 
 
 // cargamos los middlewares globales

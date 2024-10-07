@@ -3,15 +3,12 @@ import fs from 'fs';
 export class CartManager {
     constructor(file) {
         this.file = file;
-        this.init();
     }
 
     async init() {
         try {
             const exists = await fs.promises.access(this.file);
-            console.log('El archivo existe');
         } catch (err) {
-            console.log('El archivo NO existe');
             await fs.promises.writeFile(this.file, JSON.stringify([]));
         }
     }

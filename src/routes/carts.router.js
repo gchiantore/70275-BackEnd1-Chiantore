@@ -9,7 +9,7 @@ router.get('/:cid',async(req,res)=>{
     const carts=await cManager.getCarts();// Obtengo todo los datos de los carritos
     const cart=carts.find(cart => cart.id === +req.params.cid); // Busco el carrito por ID
     if (cart){
-        res.status(200).send({error:null,data:cart});
+        res.status(200).send({data:cart});
     }else{
         res.status(400).send({error:'No existe el carrito'});
     }
@@ -20,7 +20,7 @@ router.post('/',async(req,res)=>{
     const carts=await cManager.getCarts();
     const maxId = carts.length > 0 ? Math.max(...carts.map(item => item.id)) : 0; // Autogenero el ID del Carrito 
     const cart=await cManager.createCart({id:maxId+1, products:[]});
-    res.status(200).send({error:null,data:cart});
+    res.status(200).send({data:cart});
 })
 
 
@@ -40,7 +40,7 @@ router.post('/:cid/products/:pid', async (req, res) => {
 
             // Actualizo el carrito
             const updatedCart = await cManager.updateCart(cart.id, cart.products);
-            res.status(200).send({ error: null, data: updatedCart });
+            res.status(200).send({data: updatedCart });
         } else {
             res.status(400).send({ error: 'No existe el carrito' });
         }

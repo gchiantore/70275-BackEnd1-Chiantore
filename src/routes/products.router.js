@@ -12,7 +12,7 @@ router.get('/',async(req,res)=>{
         res.status(200).send({error:null,data:listProductLimit});
     }else{
         const products=await pManager.getProducts();
-        res.status(200).send({error:null,data:products});
+        res.status(200).send({data:products});
     }
 })
 
@@ -20,7 +20,7 @@ router.get('/:pid',async(req,res)=>{
     const products=await pManager.getProducts();
     const product=products.find(product => product.id === +req.params.pid);
     if (product){
-        res.status(200).send({error:null,data:product});
+        res.status(200).send({data:product});
     }else{
         res.status(400).send({error:'No existe el producto'});
     }
@@ -37,7 +37,7 @@ router.post('/',async(req,res)=>{
                 } 
             }
             const product=await pManager.createProduct({id:maxId+1, ...req.body});
-            res.status(200).send({error:null,data:product});
+            res.status(200).send({data:product});
         }else{
             res.status(400).send({error:'Faltan datos'});
         }
@@ -50,7 +50,7 @@ router.put('/:pid',async(req,res)=>{
     const products=await pManager.getProducts();
     if (products.find(product => product.id === +req.params.pid)){
         const product=await pManager.updateProduct(+req.params.pid,req.body);
-        res.status(200).send({error:null,data:product});
+        res.status(200).send({data:product});
     }else{
         res.status(400).send({error:'No existe el producto'});
     }
@@ -60,7 +60,7 @@ router.delete('/:pid',async(req,res)=>{
     const products=await pManager.getProducts();
     if (products.find(product => product.id === +req.params.pid)){
         const product=await pManager.deleteProduct(+req.params.pid);
-        res.status(200).send({error:null,data:product});
+        res.status(200).send({data:product});
     }else{
         res.status(400).send({error:'No existe el producto'});
     }    

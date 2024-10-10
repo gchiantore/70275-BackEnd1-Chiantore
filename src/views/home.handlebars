@@ -1,0 +1,32 @@
+<div>
+    <h1>Hola bienvenido al sistema! </h1>
+    <hr>
+    <h5>Lista estatica de Productos </h5>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+            <th scope="col">Descrip</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            </tr>
+        </thead>
+        <tbody id ="productsList">
+            {{#each products}}
+                <tr>
+                <th scope="row">{{this.id}}</th>
+                <td>{{this.code}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.stock}}</td>
+                </tr>
+            {{/each}}    
+        </tbody>
+    </table>
+</div>

@@ -1,13 +1,15 @@
 import express from 'express';
 import config from './config.js';
-// importamos el paquete de rutas dinámicas para manejo de productos
-import productsRouter from './routes/products.router.js';
-// importamos el paquete de rutas dinamicas para el manejo de carrritos
-import cartsRouter from './routes/carts.router.js';
+import initSocket from './sockets.js';
+import handlebars from 'express-handlebars';
 
-// importamos los Class Managers para manejo de archivos JSON
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
+import viewsRouter from './routes/views.router.js';
+
 import { ProductManager } from './productsManager.js';
 import { CartManager } from './cartManager.js'; 
+
 
 //Creamos Instancias de Managers
 const cManager = new CartManager('carts.json');
@@ -23,21 +25,25 @@ const app = express();
 
 
 
-
-// cargamos los middlewares globales
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-
-// Activamos el paquete de rutas dinámicas para manejo de usuarios bajo el prefijo /api/products
-app.use('/api/products', productsRouter);
-// Activamos el paquete de rutas dinamicas para manejo de productos bajo el prefijo /api/carts
-app.use('/api/carts', cartsRouter);
-// Activo el paquete de rutas estáticas (servicio complementario) bajo el prefijo /static
-app.use('/static', express.static(`${config.DIRNAME}/public`));
-
-
-// ponemos el servidor a escuchar
-app.listen(config.PORT, () => {
+const httpServer = app.listen(config.PORT, () => {
     console.log(`Server activo en puerto ${config.PORT}`);
+    
+    const socketServer = initSocket(httpServer);
+
+    socketServer.emit('start', { message: 'Servidor Socket.IO iniciado correctamente' });
+    app.set('socketServer', socketServer);
+   
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
+    app.engine('handlebars', handlebars.engine());
+    app.set('views', `${config.DIRNAME}/views`);
+    app.set('view engine', 'handlebars');
+
+    app.use('/views', viewsRouter);
+    app.use('/api/products', productsRouter);
+    app.use('/api/carts', cartsRouter);
+    app.use('/static', express.static(`${config.DIRNAME}/public`));
+
 });
+

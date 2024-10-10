@@ -1,0 +1,78 @@
+<div>
+    <h1>Hola bienvenido al sistema! </h1>
+    <hr>
+    <h5>Lista dinamica de Productos usando socket.io</h5>
+    <hr>
+
+<table class="table">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Code</th>
+            <th scope="col">Title</th>
+            <th scope="col">Descrip</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            </tr>
+        </thead>
+        <tbody id ="productsList">
+            
+        </tbody>
+    </table>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    const url = ""; // vacío para Localhost
+    const options = {};
+   // Conexión al SERVIDOR websockets
+    const socketClient = io();
+
+    // Se habilita un listener atento a la conexión
+    // Cuando este cliente logra conectar con el servidor, se ejecuta este callback
+    socketClient.on('connect', async () => {
+        console.log(`Conectado servidor socket.io ${url}`);
+        socketClient.emit('new_user_data', {user: 'Cliente'});
+    });
+
+    // Suscripciones
+    // current_messages lo genera el servidor al conectarse el cliente, le envía
+    // la lista actual de mensajes en el chat
+    socketClient.on('current_list', data => {
+        productsList.innerHTML = '';
+        data.forEach(products => {
+            productsList.innerHTML += `
+                <tr>
+                <th scope="row">${products.id}</th>
+                <td>${products.code}</td>
+                <td>${products.title}</td>
+                <td>${products.description}</td>
+                <td>${products.category}</td>
+                <td>${products.price}</td>
+                <td>${products.stock}</td>
+                </tr>
+            `;
+        });
+    });
+
+    // new_general_msg lo genera el servidor para TODOS cuando recibe de CUALQUIER
+    // cliente un nuevo mensaje
+    socketClient.on('new_product', data => {
+        productsList.innerHTML = '';
+        data.forEach(products => {
+            productsList.innerHTML += `
+                <tr>
+                <th scope="row">${products.id}</th>
+                <td>${products.code}</td>
+                <td>${products.title}</td>
+                <td>${products.description}</td>
+                <td>${products.category}</td>
+                <td>${products.price}</td>
+                <td>${products.stock}</td>
+                </tr>
+            `;
+        });
+    });
+
+</script>

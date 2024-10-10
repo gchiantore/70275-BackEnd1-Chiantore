@@ -37,6 +37,11 @@ router.post('/',async(req,res)=>{
                 } 
             }
             const product=await pManager.createProduct({id:maxId+1, ...req.body});
+            const listProducts=await pManager.getProducts(); // Actualizo listProducts
+            
+            const socketServer=req.app.get('socketServer');
+            socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+            
             res.status(200).send({data:product});
         }else{
             res.status(400).send({error:'Faltan datos'});
@@ -50,6 +55,11 @@ router.put('/:pid',async(req,res)=>{
     const products=await pManager.getProducts();
     if (products.find(product => product.id === +req.params.pid)){
         const product=await pManager.updateProduct(+req.params.pid,req.body);
+        
+        const listProducts=await pManager.getProducts(); // Actualizo listProducts
+        const socketServer=req.app.get('socketServer');
+        socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+        
         res.status(200).send({data:product});
     }else{
         res.status(400).send({error:'No existe el producto'});
@@ -60,6 +70,11 @@ router.delete('/:pid',async(req,res)=>{
     const products=await pManager.getProducts();
     if (products.find(product => product.id === +req.params.pid)){
         const product=await pManager.deleteProduct(+req.params.pid);
+
+        const listProducts=await pManager.getProducts(); // Actualizo listProducts
+        const socketServer=req.app.get('socketServer');
+        socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+        
         res.status(200).send({data:product});
     }else{
         res.status(400).send({error:'No existe el producto'});

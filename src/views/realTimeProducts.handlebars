@@ -1,10 +1,11 @@
 <div>
-    <h1>Hola bienvenido al sistema! </h1>
+    <h1>Proyecto Final Backend / Entrega 2</h1>
+    <h6>CodeHouse / Backend 1 / Comision 70275 / Chiantore</h6>
     <hr>
-    <h5>Lista dinamica de Productos usando socket.io</h5>
+    <h5 class="text-center">Lista dinamica de productos usando Socket.io </h5>
     <hr>
 
-<table class="table">
+    <table class="table">
         <thead>
             <tr>
             <th scope="col">ID</th>
@@ -22,7 +23,7 @@
     </table>
 </div>
 <script src="/socket.io/socket.io.js"></script>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
     const url = ""; // vacío para Localhost
     const options = {};
@@ -33,6 +34,17 @@
     // Cuando este cliente logra conectar con el servidor, se ejecuta este callback
     socketClient.on('connect', async () => {
         console.log(`Conectado servidor socket.io ${url}`);
+        Toastify({
+            text: `Conectado servidor socket.io ${url}`,
+            duration: 3000,
+            close: true,
+            gravity: "top", 
+            position: "center", 
+            stopOnFocus: true, 
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
         socketClient.emit('new_user_data', {user: 'Cliente'});
     });
 
@@ -40,6 +52,17 @@
     // current_messages lo genera el servidor al conectarse el cliente, le envía
     // la lista actual de mensajes en el chat
     socketClient.on('current_list', data => {
+        Toastify({
+            text: "Lista de Productos actualizada",
+            duration: 3000,
+            close: true,
+            gravity: "top", 
+            position: "center", 
+            stopOnFocus: true, 
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
         productsList.innerHTML = '';
         data.forEach(products => {
             productsList.innerHTML += `
@@ -59,6 +82,17 @@
     // new_general_msg lo genera el servidor para TODOS cuando recibe de CUALQUIER
     // cliente un nuevo mensaje
     socketClient.on('new_product', data => {
+        Toastify({
+            text: "Nuevo Producto agregado",
+            duration: 3000,
+            close: true,
+            gravity: "top", 
+            position: "center", 
+            stopOnFocus: true, 
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+            }).showToast();
         productsList.innerHTML = '';
         data.forEach(products => {
             productsList.innerHTML += `

@@ -32,7 +32,7 @@ const httpServer = app.listen(config.PORT, () => {
 
     socketServer.emit('start', { message: 'Servidor Socket.IO iniciado correctamente' });
     app.set('socketServer', socketServer);
-   
+
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
@@ -40,7 +40,7 @@ const httpServer = app.listen(config.PORT, () => {
     app.set('views', `${config.DIRNAME}/views`);
     app.set('view engine', 'handlebars');
 
-    app.use('/views', viewsRouter);
+    app.use('/', viewsRouter);
     app.use('/api/products', productsRouter);
     app.use('/api/carts', cartsRouter);
     app.use('/static', express.static(`${config.DIRNAME}/public`));

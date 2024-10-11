@@ -36,31 +36,29 @@
         console.log(`Conectado servidor socket.io ${url}`);
         Toastify({
             text: `Conectado servidor socket.io ${url}`,
-            duration: 3000,
+            duration: 4000,
             close: true,
             gravity: "top", 
             position: "center", 
             stopOnFocus: true, 
             style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: "linear-gradient(to right, #0575e6, #021b79)",
             }
             }).showToast();
         socketClient.emit('new_user_data', {user: 'Cliente'});
     });
 
     // Suscripciones
-    // current_messages lo genera el servidor al conectarse el cliente, le envía
-    // la lista actual de mensajes en el chat
     socketClient.on('current_list', data => {
         Toastify({
-            text: "Lista de Productos actualizada",
-            duration: 3000,
+            text: "Lista de Productos cargada con exito",
+            duration: 4000,
             close: true,
             gravity: "top", 
             position: "center", 
             stopOnFocus: true, 
             style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: "linear-gradient(to right, #56ccf2, #2f80ed)",
             }
             }).showToast();
         productsList.innerHTML = '';
@@ -84,17 +82,21 @@
     socketClient.on('new_product', data => {
         console.log(data);
         let notificationText="";
+        let notificationColor="";
         switch (data.state) {
             case 'created':
                         notificationText='Se ha creado un nuevo producto'; 
+                        notificationColor="linear-gradient(to right, #00d2ff, #3a7bd5)";
                         break;
                         
             case 'updated':
                         notificationText='Se ha actualizado un producto'; 
+                        notificationColor="linear-gradient(to right, #dce35b, #45b649)";
                         break;
                         
             case 'delete':
-                        notificationText='Se ha eliminado un nuevo producto'; 
+                        notificationText='Se ha eliminado un producto'; 
+                        notificationColor="linear-gradient(to right, #ed213a, #93291e)";
                         break; 
             };
 
@@ -106,7 +108,7 @@
             position: "center", 
             stopOnFocus: true, 
             style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                background: notificationColor,
             }
             }).showToast();
         productsList.innerHTML = '';

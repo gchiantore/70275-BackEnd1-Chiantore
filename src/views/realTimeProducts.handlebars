@@ -82,8 +82,24 @@
     // new_general_msg lo genera el servidor para TODOS cuando recibe de CUALQUIER
     // cliente un nuevo mensaje
     socketClient.on('new_product', data => {
+        console.log(data);
+        let notificationText="";
+        switch (data.state) {
+            case 'created':
+                        notificationText='Se ha creado un nuevo producto'; 
+                        break;
+                        
+            case 'updated':
+                        notificationText='Se ha actualizado un producto'; 
+                        break;
+                        
+            case 'delete':
+                        notificationText='Se ha eliminado un nuevo producto'; 
+                        break; 
+            };
+
         Toastify({
-            text: "Nuevo Producto agregado",
+            text: notificationText,
             duration: 3000,
             close: true,
             gravity: "top", 
@@ -94,7 +110,7 @@
             }
             }).showToast();
         productsList.innerHTML = '';
-        data.forEach(products => {
+        data.listProducts.forEach(products => {
             productsList.innerHTML += `
                 <tr>
                 <th scope="row">${products.id}</th>

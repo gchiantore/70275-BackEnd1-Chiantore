@@ -40,7 +40,7 @@ router.post('/',async(req,res)=>{
             const listProducts=await pManager.getProducts(); // Actualizo listProducts
             
             const socketServer=req.app.get('socketServer');
-            socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+            socketServer.emit('new_product', {listProducts, state: 'created'});// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
             
             res.status(200).send({data:product});
         }else{
@@ -58,7 +58,7 @@ router.put('/:pid',async(req,res)=>{
         
         const listProducts=await pManager.getProducts(); // Actualizo listProducts
         const socketServer=req.app.get('socketServer');
-        socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+        socketServer.emit('new_product', {listProducts, state: 'updated'});// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
         
         res.status(200).send({data:product});
     }else{
@@ -73,7 +73,7 @@ router.delete('/:pid',async(req,res)=>{
 
         const listProducts=await pManager.getProducts(); // Actualizo listProducts
         const socketServer=req.app.get('socketServer');
-        socketServer.emit('new_product', listProducts);// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
+        socketServer.emit('new_product', {listProducts, state: 'delete'});// Notifico a todos los clientes conectados que se ha agregado un nuevo producto
         
         res.status(200).send({data:product});
     }else{
